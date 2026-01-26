@@ -6,6 +6,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+<<<<<<< HEAD
+
 ### `npm start`
 
 Runs the app in the development mode.\
@@ -68,3 +70,41 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+---
+
+## V1 Features (Shipped)
+
+- ✅ Create IPOs via form (manual data entry)
+- ✅ List IPOs in table with key columns (name, ticker, exchange, dates, PE, ROCE)
+- ✅ View IPO detail page with all fields grouped (Basics, Financials, Valuation, Qualitative)
+- ✅ Django REST API serving data
+- ✅ CORS enabled for localhost development
+
+## Future Backlog (GitHub Issues)
+
+- Add edit/update functionality for IPOs
+- Add charts for revenue, EBITDA, PAT trends
+- Add validation on form fields
+- Add search by company name or ticker (implemented client-side)
+- Auto-fetch IPO data from NSE/BSE APIs
+- Add user accounts and save favorites
+- # Add historical tracking (price at listing vs current)
+  V1 Features (Shipped)
+  ✅ Create IPOs via form (manual data entry)
+  ✅ List IPOs in table with key columns (name, ticker, exchange, dates, PE, ROCE)
+  ✅ View IPO detail page with all fields grouped (Basics, Financials, Valuation, Qualitative)
+  ✅ Django REST API serving data
+  ✅ CORS enabled for localhost development
+
+Future Backlog (GitHub Issues)
+✅Add filters (by exchange, status: upcoming/live/listed)
+Add edit/update functionality for IPOs
+Add charts for revenue, EBITDA, PAT trends
+Add validation on form fields
+Add search by company name or ticker
+Auto-fetch IPO data from NSE/BSE APIs
+Add user accounts and save favorites
+Add historical tracking (price at listing vs current)
+
+> > > > > > > cd4a096 (added edit functionality)
