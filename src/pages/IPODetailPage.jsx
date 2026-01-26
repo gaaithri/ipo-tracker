@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { fetchIPO } from "../api/ipoApi";
 
 function IPODetailPage() {
@@ -18,9 +18,32 @@ function IPODetailPage() {
 
   return (
     <div>
-      <h1>
-        {ipo.name} ({ipo.ticker})
-      </h1>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "20px",
+        }}
+      >
+        <h1>
+          {ipo.name} ({ipo.ticker})
+        </h1>
+        <Link
+          to={`/ipos/${id}/edit`}
+          style={{
+            padding: "8px 16px",
+            backgroundColor: "#4CAF50",
+            color: "white",
+            textDecoration: "none",
+            borderRadius: "4px",
+            fontSize: "14px",
+            fontWeight: "bold",
+          }}
+        >
+          Edit IPO
+        </Link>
+      </div>
 
       <section>
         <h2>Basics</h2>
@@ -35,7 +58,6 @@ function IPODetailPage() {
         <p>Underwriters: {ipo.underwriters}</p>
       </section>
 
-      
       <section>
         <h2>Valuation</h2>
         <p>EPS: {ipo.eps}</p>
@@ -44,10 +66,7 @@ function IPODetailPage() {
         <p>P/B: {ipo.pb}</p>
         <p>Valuation comment: {ipo.valuation_comment}</p>
       </section>
-      <section>
-
-
-      </section>
+      <section></section>
 
       <section>
         <h2>Qualitative</h2>

@@ -21,3 +21,13 @@ export async function createIPO(data) {
   if (!res.ok) throw new Error("Failed to create IPO");
   return res.json();
 }
+
+export async function updateIPO(id, data) {
+  const res = await fetch(`${BASE_URL}/ipos/${id}/`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error("Failed to update IPO");
+  return res.json();
+}
