@@ -218,6 +218,15 @@ function IPOListPage() {
             >
               ROCE %
             </th>
+            <th
+              style={{
+                padding: "12px 15px",
+                textAlign: "center",
+                borderBottom: "2px solid #ddd",
+              }}
+            >
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -333,6 +342,40 @@ function IPOListPage() {
               </td>
               <td style={{ padding: "12px 15px", textAlign: "center" }}>
                 {ipo.roce_pct}
+              </td>
+              <td style={{ padding: "12px 15px", textAlign: "center" }}>
+                <Link
+                  to={`/ipos/${ipo.id}/edit`}
+                  style={{
+                    color: "#4CAF50",
+                    fontSize: "18px",
+                    marginRight: "12px",
+                    cursor: "pointer",
+                    textDecoration: "none",
+                  }}
+                  title="Edit"
+                >
+                  ✏️
+                </Link>
+                <button
+                  onClick={() => {
+                    if (window.confirm(`Delete ${ipo.name}?`)) {
+                      console.log(`Delete IPO ${ipo.id}`);
+                      alert("Delete functionality coming soon");
+                    }
+                  }}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "#f44336",
+                    fontSize: "18px",
+                    cursor: "pointer",
+                    padding: "0",
+                  }}
+                  title="Delete"
+                >
+                  🗑️
+                </button>
               </td>
             </tr>
           ))}
