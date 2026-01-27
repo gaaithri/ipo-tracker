@@ -1,6 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchIPO } from "../api/ipoApi";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 function IPODetailPage() {
   const { id } = useParams();
@@ -66,7 +76,41 @@ function IPODetailPage() {
         <p>P/B: {ipo.pb}</p>
         <p>Valuation comment: {ipo.valuation_comment}</p>
       </section>
-      <section></section>
+
+      <section>
+        <h2>Financial Metrics</h2>
+        {ipo.revenue_crores || ipo.ebitda_crores || ipo.pat_crores ? (
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart
+              data={[
+                {
+                  name: "Financial Metrics",
+                  Revenue: parseFloat(ipo.revenue_crores) || 0,
+                  EBITDA: parseFloat(ipo.ebitda_crores) || 0,
+                  PAT: parseFloat(ipo.pat_crores) || 0,
+                },
+              ]}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis
+                label={{
+                  value: "Amount (Cr)",
+                  angle: -90,
+                  position: "insideLeft",
+                }}
+              />
+              <Tooltip formatter={(value) => `₹${value.toFixed(2)} Cr`} />
+              <Legend />
+              <Bar dataKey="Revenue" fill="#4CAF50" />
+              <Bar dataKey="EBITDA" fill="#2196F3" />
+              <Bar dataKey="PAT" fill="#FF9800" />
+            </BarChart>
+          </ResponsiveContainer>
+        ) : (
+          <p>Financial data not available</p>
+        )}
+      </section>
 
       <section>
         <h2>Qualitative</h2>
