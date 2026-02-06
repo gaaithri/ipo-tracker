@@ -50,5 +50,8 @@ class IPO(models.Model):
     # Meta
     created_at = models.DateTimeField(auto_now_add=True)
 
+    is_favourite = models.BooleanField(default=False)
+
+
     def __str__(self):
         return f"{self.name} ({self.ticker})"
