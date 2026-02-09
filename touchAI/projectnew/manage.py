@@ -2,6 +2,18 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from pathlib import Path
+
+# Load `.env` from project root when present (local development convenience)
+try:
+    from dotenv import load_dotenv
+    root = Path(__file__).resolve().parent
+    env_file = root / ".env"
+    if env_file.exists():
+        load_dotenv(env_file)
+except Exception:
+    # dotenv is optional; if not installed, continue without failing
+    pass
 
 
 def main():

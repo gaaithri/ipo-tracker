@@ -16,6 +16,8 @@ class IPO(models.Model):
     price_band_low = models.DecimalField(max_digits=10, decimal_places=2)
     price_band_high = models.DecimalField(max_digits=10, decimal_places=2)
     issue_size_crores = models.DecimalField(max_digits=12, decimal_places=2)
+    min_qty = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+    min_amount = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     open_date = models.DateField()
     close_date = models.DateField()
     listing_date = models.DateField(null=True, blank=True)
@@ -55,3 +57,24 @@ class IPO(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.ticker})"
+
+
+class SyncLog(models.Model):
+    '''Track API sync history and count successful fetches'''
+    STATUS_CHOICES = [
+        ('success', 'Success'),
+        ('failed', 'Failed'),
+    ]
+    
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    synced_count = models.IntegerField(default=0)  # Number of IPOs synced in this request
+    days_ahead = models.IntegerField(default=30)
+    page = models.IntegerField(default=1)
+    error_message = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"Sync {self.status} - {self.synced_count} IPOs - {self.created_at.strftime('%Y-%m-%d %H:%M:%S')}"
