@@ -1,71 +1,129 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { fetchIPOs } from "../api/ipoApi";
+        <div style={{ marginRight: 20 }}>
+          <button
+            onClick={() => setShowConfirm(true)}
+            disabled={syncing}
+            style={{
+              padding: "8px 14px",
+              background: "#1976d2",
+              color: "white",
+              border: "none",
+              borderRadius: 6,
+              cursor: "pointer",
+            }}
+            title="Sync IPO listings from IPO Alerts"
+          >
+            {syncing ? "Syncing..." : "Sync with IPO Alerts"}
+          </button>
 
-function IPOListPage() {
-  const [ipos, setIPOs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [exchangeFilter, setExchangeFilter] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
-  const LOW_PE_THRESHOLD = 15;
-  const MEDIUM_PE_THRESHOLD = 40;
-  const HIGH_PE_THRESHOLD = 60;
+          <div style={{ fontSize: 12, color: "#444", marginTop: 6 }}>
+            <div>
+              Successful syncs today: <strong>{syncStats.success_today}</strong>
+            </div>
+            <div>
+              Successful syncs this month: <strong>{syncStats.success_month}</strong>
+            </div>
+          </div>
 
-  const getIPOStatus = (openDate, closeDate) => {
-    const today = new Date();
-    const open = new Date(openDate);
-    const close = new Date(closeDate);
+          {showConfirm && (
+            <div
+              role="dialog"
+              aria-modal="true"
+              style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "rgba(0,0,0,0.4)",
+                zIndex: 1000,
+              }}
+            >
+              <div
+                style={{
+                  background: "white",
+                  padding: 20,
+                  borderRadius: 8,
+                  width: 380,
+                  boxShadow: "0 6px 18px rgba(0,0,0,0.2)",
+                }}
+              >
+                <h3 style={{ marginTop: 0 }}>Confirm Sync</h3>
+                <p style={{ marginBottom: 12 }}>
+                  This will fetch IPOs from the remote API and persist them.
+                  Proceed?
+                </p>
 
-    if (close < today) {
-      return "Listed";
-    } else if (open > today) {
-      return "Upcoming";
-    } else {
-      return "Open";
-    }
-  };
+                <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+                  <div style={{ flex: 1 }}>
+                    <label style={{ fontSize: 12 }}>Days ahead</label>
+                    <input
+                      type="number"
+                      value={confirmDays}
+                      onChange={(e) => setConfirmDays(Number(e.target.value))}
+                      style={{ width: "100%", padding: 8, marginTop: 4 }}
+                    />
+                  </div>
+                  <div style={{ width: 110 }}>
+                    <label style={{ fontSize: 12 }}>Page</label>
+                    <input
+                      type="number"
+                      value={confirmPage}
+                      onChange={(e) => setConfirmPage(Number(e.target.value))}
+                      style={{ width: "100%", padding: 8, marginTop: 4 }}
+                    />
+                  </div>
+                </div>
 
-  useEffect(() => {
-    fetchIPOs()
-      .then(setIPOs)
-      .finally(() => setLoading(false));
-  }, []);
-
-  // Get unique exchanges and normalize them
-  const uniqueExchanges = [
-    ...new Set(ipos.map((ipo) => ipo.exchange.toUpperCase())),
-  ].sort();
-
-  // Get unique statuses
-  const uniqueStatuses = [
-    ...new Set(ipos.map((ipo) => getIPOStatus(ipo.open_date, ipo.close_date))),
-  ].sort();
-
-  // Filter IPOs based on selected exchange and status
-  const filteredIPOs = ipos.filter((ipo) => {
-    const exchange = ipo.exchange.toUpperCase();
-    const status = getIPOStatus(ipo.open_date, ipo.close_date);
-
-    const exchangeMatch = !exchangeFilter || exchange === exchangeFilter;
-    const statusMatch = !statusFilter || status === statusFilter;
-
-    return exchangeMatch && statusMatch;
-  });
-
-  if (loading) return <p>Loading IPOs...</p>;
-
-  return (
-    <div style={{ padding: "20px" }}>
-      <h1>IPO List</h1>
-
-      <div
-        style={{
-          marginBottom: "20px",
-          display: "flex",
-          alignItems: "center",
-          gap: "10px",
-        }}
-      >
+                <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
+                  <button
+                    onClick={() => setShowConfirm(false)}
+                    style={{ padding: "8px 12px", borderRadius: 6 }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => handleSync(confirmDays, confirmPage)}
+                    disabled={syncing}
+                    style={{
+                      padding: "8px 12px",
+                      background: "#1976d2",
+                      color: "white",
+                      border: "none",
+                      borderRadius: 6,
+                    }}
+                  >
+                    {syncing ? "Syncing..." : "Confirm & Sync"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+              padding: "8px 14px",
+              background: "#1976d2",
+              color: "white",
+              border: "none",
+              borderRadius: 6,
+              cursor: "pointer",
+            }}
+            title="Sync IPO listings from IPO Alerts"
+          >
+            {syncing ? "Syncing..." : "Sync with IPO Alerts"}
+          </button>
+          <div style={{ fontSize: 12, color: "#444", marginTop: 6 }}>
+            <div>
+              Successful syncs today: <strong>{syncStats.success_today}</strong>
+            </div>
+            <div>
+              Successful syncs this month:{" "}
+              <strong>{syncStats.success_month}</strong>
+            </div>
+          </div>
+        </div>
         <label style={{ fontWeight: "bold", fontSize: "14px" }}>
           Filter by Exchange:
         </label>

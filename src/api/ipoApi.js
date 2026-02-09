@@ -6,6 +6,23 @@ export async function fetchIPOs() {
   return res.json();
 }
 
+export async function syncIPOs(days = 30, page = 1) {
+  const res = await fetch(
+    `${BASE_URL}/ipos/sync-from-api/?days=${days}&page=${page}`,
+    {
+      method: "POST",
+    },
+  );
+  if (!res.ok) throw new Error("Failed to sync IPOs");
+  return res.json();
+}
+
+export async function fetchSyncStats() {
+  const res = await fetch(`${BASE_URL}/ipos/sync-stats/`);
+  if (!res.ok) throw new Error("Failed to fetch sync stats");
+  return res.json();
+}
+
 export async function fetchIPO(id) {
   const res = await fetch(`${BASE_URL}/ipos/${id}/`);
   if (!res.ok) throw new Error("Failed to fetch IPO");
